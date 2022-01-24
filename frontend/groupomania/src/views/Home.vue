@@ -1,0 +1,147 @@
+<template>
+  <div id="app" class="app">
+    <main> 
+             
+        <div v-if="userConnected" class="row container-fluid mx-auto px-0">
+            <div class="col-lg-8">
+                 <div class="headerFeed d-flex shadow-sm mt-3 p-3 justify-content-between">
+                    <div>
+                        <button type="button" class="btn btn-dark border rounded-pill mx-1">Populaires</button>
+                        <button type="button" class="btn border rounded-pill mx-1">News</button>
+                        <button type="button" class="btn border rounded-pill mx-1">Pour toi</button>                     
+                    </div>
+                    <router-link class="btn btn btn-primary ml-4 px-4 rounded-pill btnPublication" to="/submit">Publier</router-link>
+                </div> 
+                
+                <div class="feed">
+                    <Post
+                        v-for="post in posts"
+                        :date="post.date"
+                        :text="post.text"
+                        :image="post.image"
+                        :likes="post.likes"
+                        :comments="post.comments"
+                        :shares="post.shares"
+                        :key="post.name"                        
+                    />
+                </div>
+
+            </div>
+            <div class="col-lg-4 color mt-3">
+                 <div class="populaires shadow-sm p-2">
+                    <h4 class="text-center">Les + populaires</h4>                     
+                    <Popular src="/images/meme.jpg" alt="meme" text="Funny" btnname="suivre"/>                    
+                    <Popular src="/images/cats.jpg" alt="cats" text="Animaux" btnname="suivre"/>                    
+                    <Popular src="/images/wtf.jpg" alt="wtf" text="Blagues" btnname="suivre"/>
+                </div> 
+            </div>            
+        </div>   
+        <div v-else>
+                <Welcome/> 
+        </div>
+    </main>
+  </div>   
+</template>
+
+<script>
+// @ is an alias to /src
+// import axios from 'axios';
+import Post from '@/components/Post.vue'
+import Popular from '@/components/Popular.vue'
+import Welcome from '@/components/Welcome.vue'
+
+export default {
+  name: 'Home',
+  components: {
+    Post,
+    Popular,
+    Welcome
+  },
+  data(){
+    return{
+      userConnected: sessionStorage.getItem("userToken"), 
+      posts:[
+            {
+            name: "post1",    
+            date: "2015-03-25",
+            text: "the funniest post",
+            author: {
+                photo: "/images/meme.jpg"
+            },
+            image:{
+                source:"/images/meme.jpg",
+                alt: "Un meme"                 
+            },
+            likes: 1250,
+            comments: 175,
+            shares: 100
+            },
+            {
+            name: "post2",    
+            date: "2021-04-14",
+            text: "Funny Christmas",
+            author: {
+                photo: "/images/comics.webp"
+            },
+            image:{
+                source:"/images/comics.webp",
+                alt: "commics" 
+            },
+            likes: 500,
+            comments: 75,
+            shares: 104
+            }
+        ]
+    }
+  }
+}
+</script>
+
+
+<style>
+*{
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+    background-color: #F3F3F9;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(33, 34, 33);
+    font-size: 15px;
+}
+nav{
+    background-color: #fff;   
+    box-shadow: 0px 5px 21px -5px #cdd1e1;
+    margin-bottom: 30px;
+}
+.container-fluid{
+    width: 70%;
+}
+.headerFeed, .cardStyle,  .populaires{
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.cardStyle .photoPost{   
+    object-fit: contain;
+}
+.btnPublication{
+    width: 30%;
+    height: 40px;
+}
+
+
+@media only screen and (max-width: 1024px){
+    .container-fluid{
+        width: 100%;
+    }
+    
+}
+@media only screen and (max-width: 992px){
+    .form-control {
+        width: 100%;
+    }
+    
+}
+
+</style>
