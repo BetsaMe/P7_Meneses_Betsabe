@@ -5,12 +5,7 @@
           <div class="container-fluid">
             <router-link class="navbar-brand" to="/"><img :src="logoEntreprise.source" :alt="logoEntreprise.alt" height="30"></router-link>          
            
-            <div v-if="!userConnected" class="d-flex align-items-center">  
-              <router-link class="nav-link" to="/login">Login</router-link>
-              <router-link class="btn btn btn-primary rounded-pill px-4 mx-2" to="/signup">Signup</router-link> 
-            </div>
-
-            <div v-else class="d-flex align-items-center">
+            <div v-if="userConnected"  class="d-flex align-items-center">
               <form class="d-flex">
                 <input class="form-control me-2 rounded-pill" type="search" placeholder="Recherche" aria-label="Recherche">
               </form>
@@ -29,6 +24,10 @@
                 </ul>
               </div>
             </div> 
+            <div v-else class="d-flex align-items-center">  
+              <router-link class="nav-link" to="/login">Login</router-link>
+              <router-link class="btn btn btn-primary rounded-pill px-4 mx-2" to="/signup">Signup</router-link> 
+            </div>
 
           </div>
         </nav>
@@ -50,7 +49,7 @@ export default {
           alt: "logo groupomania"
       }
     }
-  },
+  }, 
   methods:{
     handleLogout(){
       sessionStorage.removeItem("userToken");

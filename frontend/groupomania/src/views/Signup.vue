@@ -1,6 +1,6 @@
 <template>
   <div>  
-      <form class="form-signin text-center" @submit.prevent="handleSubmit">
+      <form class="form-signin text-center" @submit.prevent="checkForm" >
           <img class="mb-4" src="/images/icon-rec.png" alt="" width="72" >
           <h1 class="h3 mb-3 fw-normal">Signup</h1>
             
@@ -20,13 +20,18 @@
             <input type="password" class="form-control" v-model="password" id="password" placeholder="mot de passe">
             <label for="floatingPassword">Mot de passe</label>
           </div>
-
-          <div class="checkbox mb-3">
+          <div class="checkbox mb-3" id="prueba">
             <label>
               <input type="checkbox" value="remember-me"> Remember me
             </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>         
+            <p v-if="errors.length" class="text-error">
+              <b >Veuillez corriger les erreurs suivantes:</b>
+              <ul>
+                <li v-for="error in errors" :key="error.name">{{ error }}</li>
+              </ul>
+            </p>
       </form>    
   </div>
 </template>
@@ -40,7 +45,11 @@ export default {
           firstName: '',
           lastName: '',
           email: '',
-          password:''
+          password:'',
+          errors:[],
+          validFormat: /^[a-zA-Z]{2,10}$/,
+          validFormatEmail: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+          validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
       }
   },
   methods:{
@@ -56,8 +65,39 @@ export default {
         this.$router.push('/login');
         console.log(response)
                 
+      }, 
+      checkForm(){
+        this.errors = [];
+        if(!this.firstName || !this.lastName || !this.email || !this.password ){
+            this.errors.push('Merci de remplir tous les champs');
+        }
+        if(!this.validText(this.firstName)){
+           this.errors.push('Votre prénom doit contenir entre 2 et 10 lettres');
+        }
+        if(!this.validText(this.lastName)){
+          this.errors.push('Votre nom doit contenir entre 2 et 10 lettres');
+        }
+        if(!this.validEmail(this.email)){
+          this.errors.push("L'adresse e-mail doit être indiquée dans un format approprié");
+        }
+        if(!this.validPassword(this.password)){
+          this.errors.push("mot de passe trop faible!");
+        }
+        if (!this.errors.length) {
+          this.handleSubmit();
       }
-    }
+      },
+      validEmail: function (email) {
+        return this.validFormatEmail.test(email);
+      },
+      validText: function (text) {
+        return this.validFormat.test(text);
+      },
+      validPassword: function (password) {
+        return this.validFormatPass.test(password);
+      }        
+  }
+
 }
 </script>
 
@@ -74,6 +114,11 @@ export default {
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+      }
+      .text-error{
+        color: rgb(207, 16, 16);
+        font-size: 15px;
+        margin-top: 20px;
       }
 
       @media (min-width: 768px) {
