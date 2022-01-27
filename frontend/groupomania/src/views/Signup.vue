@@ -1,6 +1,6 @@
 <template>
   <div>  
-      <form class="form-signin text-center" @submit.prevent="checkForm" >
+      <form class="form-signin text-center" @submit.prevent="checkForm">
           <img class="mb-4" src="/images/icon-rec.png" alt="" width="72" >
           <h1 class="h3 mb-3 fw-normal">Signup</h1>
           <div class="form-floating">
@@ -29,12 +29,12 @@
             </label>
           </div>
           <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>         
-            <p v-if="errors.length" class="text-error">
+            <div v-if="errors.length" class="text-error">
               <b >Veuillez corriger les erreurs suivantes:</b>
               <ul>
                 <li v-for="error in errors" :key="error.name">{{ error }}</li>
               </ul>
-            </p>
+            </div>
       </form>    
   </div>
 </template>
@@ -53,7 +53,9 @@ export default {
           errors:[],
           validFormat: /^[a-zA-Z]{2,10}$/,
           validFormatEmail: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
-          validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+          //password between 8 to 15 characters which contain at least one lowercase letter,
+          //one uppercase letter, one numeric digit, and one special character
+          validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
       }
   },
   methods:{      
@@ -74,6 +76,9 @@ export default {
         if(!this.firstName || !this.lastName || !this.email || !this.password ){
             this.errors.push('Merci de remplir tous les champs');
             return false
+        }
+        if(!this.validText(this.pseudo)){
+           this.errors.push('Votre pseudo doit contenir entre 2 et 10 lettres');
         }
         if(!this.validText(this.firstName)){
            this.errors.push('Votre prénom doit contenir entre 2 et 10 lettres');

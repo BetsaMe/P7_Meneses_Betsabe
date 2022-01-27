@@ -1,6 +1,6 @@
 <template>
   <div id="editProfil" class="container-fluid">
-        <form class="row g-3 headerFeed shadow-sm p-3" @submit.prevent="editUser">
+        <form class="row g-3 headerFeed shadow-sm p-3" @submit.prevent="checkForm">
             <div class=" d-flex flex-column  mt-3 justify-content-center align-items-center text-center">          
                 <img class="rounded-circle mt-5" src="images/profile.jpg" width="150" height="150">
                 <h1 class="font-weight-bold">Information de compte</h1>            
@@ -32,6 +32,12 @@
             <div class="col-12">
                 <button class="btn btn-primary my-3" type="submit">Enregistrer</button>
             </div>
+            <div v-if="errors.length" class="text-error">
+              <b >Veuillez corriger les erreurs suivantes:</b>
+              <ul>
+                <li v-for="error in errors" :key="error.name">{{ error }}</li>
+              </ul>
+            </div>
         </form>
   </div>
 </template>
@@ -45,10 +51,37 @@ export default {
           pseudo: '',
           firstName:'',
           lastName:'',
-          password:''
+          password:'',
+          errors:[],
+          validFormat: /^[a-zA-Z]{2,10}$/,
+          validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
       }
   },
-  methods:{       
+  methods:{  
+      checkForm(){
+        this.errors = [];   
+        if(!this.validText(this.pseudo)){
+           this.errors.push('Votre pseudo doit contenir entre 2 et 10 lettres');
+        }
+        if(!this.validText(this.firstName)){
+           this.errors.push('Votre prénom doit contenir entre 2 et 10 lettres');
+        }
+        if(!this.validText(this.lastName)){
+          this.errors.push('Votre nom doit contenir entre 2 et 10 lettres');
+        }
+        if(!this.validPassword(this.password)){
+          this.errors.push("mot de passe trop faible!");
+        }
+        if (!this.errors.length) {
+          this.editUser();
+        }
+    },   
+        validText: function (text) {
+            return this.validFormat.test(text);
+        },
+        validPassword: function (password) {
+            return this.validFormatPass.test(password);
+        },      
         async editUser(){           
             const infoUser = JSON.parse(sessionStorage.getItem("userInfo"))
             await axios.put('http://localhost:3000/api/auth/' + infoUser.userId,{
