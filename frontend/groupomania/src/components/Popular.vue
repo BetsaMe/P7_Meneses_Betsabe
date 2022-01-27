@@ -5,8 +5,7 @@
           <span>{{ text }}</span>
           <button type="button" class="btn btn-dark rounded-pill px-3 py-1">{{ btnname }}</button>
       </div>
-    </div>
-    
+    </div>    
 </template>
 
 <script>

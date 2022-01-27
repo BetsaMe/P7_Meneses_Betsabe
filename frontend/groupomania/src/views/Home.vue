@@ -1,8 +1,9 @@
 <template>
-  <div id="app" class="app">
-    <main> 
-             
-        <div v-if="userConnected" class="row container-fluid mx-auto px-0">
+  <div id="index">
+     <div v-if="userConnected">
+        <Navbar/>
+        <div  class="row container-fluid mx-auto px-0">
+           
             <div class="col-lg-8">
                  <div class="headerFeed d-flex shadow-sm mt-3 p-3 justify-content-between">
                     <div>
@@ -34,32 +35,36 @@
                     <Popular src="/images/cats.jpg" alt="cats" text="Animaux" btnname="suivre"/>                    
                     <Popular src="/images/wtf.jpg" alt="wtf" text="Blagues" btnname="suivre"/>
                 </div> 
-            </div>            
-        </div>   
-        <div v-else>
-                <Welcome/> 
-        </div>
-    </main>
+            </div>          
+        </div> 
+    </div>  
+    <div v-else >
+            <Welcome/> 
+    </div>   
   </div>   
 </template>
 
 <script>
 // @ is an alias to /src
-// import axios from 'axios';
 import Post from '@/components/Post.vue'
 import Popular from '@/components/Popular.vue'
 import Welcome from '@/components/Welcome.vue'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'Home',
   components: {
     Post,
     Popular,
-    Welcome
+    Welcome,
+    Navbar
+    
   },
   data(){
     return{
-      userConnected: sessionStorage.getItem("userToken"), 
+      userConnected: null,  
+    //   userConnected: JSON.parse(sessionStorage.getItem("userInfo")), 
+    //    let id = JSON.parse(sessionStorage.getItem("userInfo")).UserId;
       posts:[
             {
             name: "post1",    
@@ -93,7 +98,11 @@ export default {
             }
         ]
     }
-  }
+  },
+  created: function(){
+     this.userConnected= JSON.parse(sessionStorage.getItem("userInfo"))
+     console.log(this.userConnected.userId)
+  },
 }
 </script>
 

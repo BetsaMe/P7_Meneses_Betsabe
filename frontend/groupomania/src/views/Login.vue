@@ -41,12 +41,12 @@ export default {
       async handleSubmit(){  
 
        const response = await axios.post('http://localhost:3000/api/auth/login', {         
-              email: this.email,
-              password: this.password
+            email: this.email,
+            password: this.password
        });
-          
-        let userToken = response.data.token; 
-        sessionStorage.setItem("userToken", userToken);
+        let userInfo= JSON.stringify(response.data);
+        sessionStorage.setItem("userInfo", userInfo);
+        console.log(userInfo)
         this.$router.push('/');
       }
     }

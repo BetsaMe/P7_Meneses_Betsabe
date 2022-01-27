@@ -2,7 +2,17 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../db');
 
 class User extends Model {}
-User.init({     
+User.init({ 
+    pseudo:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate:{
+            len:{
+                args:[2, 10],
+                msg:"le pseudo doit comporter entre 2 et 10 caractères"
+            }
+        }
+    },    
     firstName:{
         type: DataTypes.STRING,
         allowNull: false,
@@ -36,7 +46,11 @@ User.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    isAdmin:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 }, {
     sequelize,
     modelName: "user"

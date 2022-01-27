@@ -1,6 +1,7 @@
 <template>
-  <div> 
-      <div v-if="userConnected" class="row container-fluid mx-auto px-0">
+  <div v-if="userConnected"> 
+      <Navbar/> 
+      <div  class="row container-fluid mx-auto px-0">
       <Form/>
           <div class="col-lg-4 color mt-3">
               <div class="populaires shadow-sm p-2">
@@ -18,12 +19,14 @@
 // @ is an alias to /src
 import Form from '@/components/Form.vue'
 import Popular from '@/components/Popular.vue'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'Submit',
   components: {
     Form,
-    Popular
+    Popular,
+    Navbar
   },
   data(){
     return{

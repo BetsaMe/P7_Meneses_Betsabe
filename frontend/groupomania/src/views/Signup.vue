@@ -3,7 +3,10 @@
       <form class="form-signin text-center" @submit.prevent="checkForm" >
           <img class="mb-4" src="/images/icon-rec.png" alt="" width="72" >
           <h1 class="h3 mb-3 fw-normal">Signup</h1>
-            
+          <div class="form-floating">
+            <input type="name" class="form-control" v-model="pseudo" id="pseudo" placeholder="pseudo">
+            <label for="floatingInput">Pseudo</label>
+          </div>            
           <div class="form-floating">
             <input type="name" class="form-control" v-model="firstName" id="firstName" placeholder="prénom">
             <label for="floatingInput">Prénom</label>
@@ -14,7 +17,7 @@
           </div>
           <div class="form-floating">
             <input type="email" class="form-control" v-model="email" id="email" placeholder="email@example.com">
-            <label for="floatingInput">Addres email</label>
+            <label for="floatingInput">Adresse email</label>
           </div>
           <div class="form-floating">
             <input type="password" class="form-control" v-model="password" id="password" placeholder="mot de passe">
@@ -42,6 +45,7 @@ export default {
   name: 'Signup',
   data(){
       return{
+          pseudo:'',
           firstName: '',
           lastName: '',
           email: '',
@@ -52,11 +56,10 @@ export default {
           validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
       }
   },
-  methods:{
-      
+  methods:{      
       async handleSubmit(){
-
         const response= await axios.post('http://localhost:3000/api/auth/signup', {
+              pseudo: this.pseudo,
               firstName: this.firstName,
               lastName: this.lastName,
               email: this.email,
@@ -70,6 +73,7 @@ export default {
         this.errors = [];
         if(!this.firstName || !this.lastName || !this.email || !this.password ){
             this.errors.push('Merci de remplir tous les champs');
+            return false
         }
         if(!this.validText(this.firstName)){
            this.errors.push('Votre prénom doit contenir entre 2 et 10 lettres');
@@ -85,7 +89,7 @@ export default {
         }
         if (!this.errors.length) {
           this.handleSubmit();
-      }
+        }
       },
       validEmail: function (email) {
         return this.validFormatEmail.test(email);
