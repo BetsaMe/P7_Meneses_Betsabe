@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Profile from '../views/Profile.vue'
 import EditProfile from '../views/EditProfile.vue'
+import CreatePost from '../views/CreatePost.vue'
 
 Vue.use(VueRouter)
 
@@ -35,10 +36,10 @@ const routes = [
     component: EditProfile
   },
   {
-    path: '/submit',
-    name: 'Submit',
-    component: () => import('../views/Submit.vue')
-  },
+    path: '/createPost',
+    name: 'createPost',
+    component: CreatePost
+  }
   
 ]
 

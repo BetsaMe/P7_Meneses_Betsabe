@@ -20,15 +20,6 @@
                 <label for="validationDefault02" class="form-label">Last name</label>
                 <input type="text" class="form-control" v-model="lastName" id="validationDefault02" value="Otto" >
             </div>
-<!--  
-            <div class="col-md-6">
-                <label for="validationDefault05" class="form-label">Email</label>
-                <input type="email" class="form-control" v-model="email" id="validationDefault05" >
-            </div> -->
-            <div class="col-md-6">
-                <label for="validationDefault05" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" v-model="password" id="password" name="password" >
-            </div>
             <div class="col-12">
                 <button class="btn btn-primary my-3" type="submit">Enregistrer</button>
             </div>
@@ -51,7 +42,6 @@ export default {
           pseudo: '',
           firstName:'',
           lastName:'',
-          password:'',
           errors:[],
           validFormat: /^[a-zA-Z]{2,10}$/,
           validFormatPass: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
@@ -69,30 +59,22 @@ export default {
         if(!this.validText(this.lastName)){
           this.errors.push('Votre nom doit contenir entre 2 et 10 lettres');
         }
-        if(!this.validPassword(this.password)){
-          this.errors.push("mot de passe trop faible!");
-        }
-        if (!this.errors.length) {
+       if (!this.errors.length) {
           this.editUser();
         }
     },   
         validText: function (text) {
             return this.validFormat.test(text);
-        },
-        validPassword: function (password) {
-            return this.validFormatPass.test(password);
-        },      
+    },     
         async editUser(){           
             const infoUser = JSON.parse(sessionStorage.getItem("userInfo"))
             await axios.put('http://localhost:3000/api/auth/' + infoUser.userId,{
                 pseudo: this.pseudo,
                 firstName: this.firstName,
-                lastName: this.lastName,
-                password: this.password
+                lastName: this.lastName
             });
-            console.log(this.password)
-            this.$router.push('/profile');
-            
+            console.log(infoUser)
+            this.$router.push('/profile');            
         }
     }
 }

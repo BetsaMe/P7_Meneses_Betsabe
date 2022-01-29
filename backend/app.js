@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const postRoutes= require('./routes/post');
 const userRoutes= require('./routes/user');
+require('./database/associations');
 
 
 // Body pars

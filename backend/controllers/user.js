@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const req = require('express/lib/request');
 const User = require('../database/models/User');
+const Post = require('../database/models/Post');
 
 // SIGNUP
 exports.signup = (req, res, next) => { 
@@ -36,9 +37,10 @@ exports.login = (req, res, next) => {
               return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             res.status(200).json({
-              userId: user.id,
+              pseudo: user.pseudo,
+              userId: user.userId,
               token: jwt.sign(
-                { firstName: user.firstName },
+                { userId: user.userId },
                 'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h' }
               )
@@ -55,11 +57,10 @@ exports.modifyProfile=(req, res, next)=>{
     User.update({
     pseudo: req.body.pseudo,  
     firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    password: req.body.password
+    lastName: req.body.lastName
     }, {
     where: {
-        id: req.params.id
+        userId: req.params.id
     }
     }).then(result => {
     res.json(result);
@@ -72,27 +73,12 @@ exports.modifyProfile=(req, res, next)=>{
   )
 };
 
-// exports.modifyProfile = (req, res, next) => { 
-       
-//   bcrypt.hash(req.body.password, 10)
-//   .then(hash => {
-//       User.update({
-//           pseudo: req.body.pseudo,
-//           firstName: req.body.firstName,
-//           lastName: req.body.lastName,
-//           email: req.body.email,
-//           password: hash
-//       })
-//       .then(() => res.status(201).json({ message: 'Utilisateur modifiée !'}))
-//       .catch(error => res.status(400).json({ error })); 
-//   })
-//   .catch(error => res.status(500).json({ error }));         
-// }; 
 
 
 // GET USER
 exports.getOneUser=(req, res, next)=>{
-  User.findByPk(req.params.id).then(user=>{
+  User.findByPk(req.params.id,
+  ).then(user=>{
     res.json(user);
   }).catch(
     (error) => {
@@ -103,4 +89,20 @@ exports.getOneUser=(req, res, next)=>{
   );  
 };
 
+// DELETE USER
 
+exports.deleteUser=(req, res, next)=>{
+  User.destroy({
+    where: {
+        userId: req.params.id
+    }
+    }).then(result => {
+    res.json(result);
+    }).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  )
+};

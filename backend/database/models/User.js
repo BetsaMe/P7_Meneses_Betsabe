@@ -3,6 +3,11 @@ const sequelize = require('../db');
 
 class User extends Model {}
 User.init({ 
+    userId: {
+        type: DataTypes.INTEGER(4), 
+        primaryKey: true,
+        autoIncrement: true
+    },
     pseudo:{
         type: DataTypes.STRING,
         allowNull: false,

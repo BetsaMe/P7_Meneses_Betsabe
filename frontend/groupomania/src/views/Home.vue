@@ -5,26 +5,17 @@
         <div  class="row container-fluid mx-auto px-0">
            
             <div class="col-lg-8">
-                 <div class="headerFeed d-flex shadow-sm mt-3 p-3 justify-content-between">
+                <div class="headerFeed d-flex shadow-sm mt-3 p-3 justify-content-between">
                     <div>
                         <button type="button" class="btn btn-dark border rounded-pill mx-1">Populaires</button>
                         <button type="button" class="btn border rounded-pill mx-1">News</button>
                         <button type="button" class="btn border rounded-pill mx-1">Pour toi</button>                     
                     </div>
-                    <router-link class="btn btn btn-primary ml-4 px-4 rounded-pill btnPublication" to="/submit">Publier</router-link>
+                    <router-link class="btn btn btn-primary ml-4 px-4 rounded-pill btnPublication" to="/createPost">Publier</router-link>
                 </div> 
                 
                 <div class="feed">
-                    <Post
-                        v-for="post in posts"
-                        :date="post.date"
-                        :text="post.text"
-                        :image="post.image"
-                        :likes="post.likes"
-                        :comments="post.comments"
-                        :shares="post.shares"
-                        :key="post.name"                        
-                    />
+                    <Post/>
                 </div>
 
             </div>
@@ -62,46 +53,14 @@ export default {
   },
   data(){
     return{
-      userConnected: null,  
+        userConnected: null,  
     //   userConnected: JSON.parse(sessionStorage.getItem("userInfo")), 
-    //    let id = JSON.parse(sessionStorage.getItem("userInfo")).UserId;
-      posts:[
-            {
-            name: "post1",    
-            date: "2015-03-25",
-            text: "the funniest post",
-            author: {
-                photo: "/images/meme.jpg"
-            },
-            image:{
-                source:"/images/meme.jpg",
-                alt: "Un meme"                 
-            },
-            likes: 1250,
-            comments: 175,
-            shares: 100
-            },
-            {
-            name: "post2",    
-            date: "2021-04-14",
-            text: "Funny Christmas",
-            author: {
-                photo: "/images/comics.webp"
-            },
-            image:{
-                source:"/images/comics.webp",
-                alt: "commics" 
-            },
-            likes: 500,
-            comments: 75,
-            shares: 104
-            }
-        ]
+        title:'',
+        content: ''
     }
   },
   created: function(){
      this.userConnected= JSON.parse(sessionStorage.getItem("userInfo"))
-     console.log(this.userConnected.userId)
   },
 }
 </script>

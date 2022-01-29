@@ -1,32 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">   
-        <nav v-if="userConnected" class="navbar navbar-light bg-light">
-          <div class="container-fluid">
-            <router-link class="navbar-brand" to="/"><img :src="logoEntreprise.source" :alt="logoEntreprise.alt" height="30"></router-link>          
-           
-            <div  class="d-flex align-items-center">
-              <form class="d-flex">
-                <input class="form-control me-2 rounded-pill" type="search" placeholder="Recherche" aria-label="Recherche">
-              </form>
-              <a class="nav-link" href="#"><i class="fas fa-bell"></i></a>
-              <a class="nav-link" aria-current="page" href="javascript:void(0)" @click="handleLogout" >Logout</a>
-              <div  class="dropdown text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="images/profile.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
-                </a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                  <li><a class="dropdown-item" href="#">Profil</a></li>
-                  <li><a class="dropdown-item" href="#">Configuration</a></li>
-                  <li><a class="dropdown-item" href="#">Dark mode</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
-     </div>   -->
+
     <router-view/>
   </div>
 </template>

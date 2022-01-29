@@ -15,7 +15,7 @@
             <div class="headerFeed d-flex flex-column shadow-sm mt-3 p-3 justify-content-center align-items-center text-center">          
                 <h2>Information de compte</h2>
                 <p>Date d'inscription : 31 août 2020</p>
-                <button type="button" class="btn btn-outline-danger">Supprimer ton compte</button>          
+                <button @submit.prevent="deleteUser" type="button" class="btn btn-outline-danger">Supprimer ton compte</button>          
             </div> 
         </div>
         <div class="col-lg-4 color mt-3">
@@ -48,6 +48,7 @@ export default {
           firstName:'',
           lastName:'',
           email:'',
+          userId:''
       }
   },
   created: function(){
@@ -56,12 +57,21 @@ export default {
   methods:{
         async showUser(){
             const infoUser = JSON.parse(sessionStorage.getItem("userInfo"))
-            const response = await axios.get('http://localhost:3000/api/auth/' + infoUser.userId);
-            console.log(response.data);
+            const idUser= infoUser.userId
+            const response = await axios.get('http://localhost:3000/api/auth/' + idUser);
+            console.log(response);
             this.pseudo= response.data.pseudo
             this.firstName= response.data.firstName
             this.lastName= response.data.lastName
             this.email= response.data.email
+            this.userId=response.data.userId
+        },
+        deleteUser() {
+            axios.delete("http://localhost:3000/api/auth/" + this.userId)//a corriger
+            .then((res) => {
+                console.log(res.data);
+                // this.$router.go("/");
+            });
         }
     }
 }

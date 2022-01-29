@@ -1,4 +1,5 @@
 const Post = require('../database/models/Post');
+const User = require('../database/models/User');
 
 // INDEX /api/post
 
@@ -19,8 +20,9 @@ exports.getAllPost = (req, res, next) => {
 exports.createPost=(req, res, next) =>{
     Post.create({
       title: req.body.title,
-      content: req.body.content
-    }).then(post =>{
+      content: req.body.content,
+      userId: req.body.userId
+    }).then(post =>{ 
       res.json(post);
     }).catch(
       (error) => {
